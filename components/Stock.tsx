@@ -20,7 +20,7 @@ function StockList() {
     // products saves data, setProducts changes products. Start value is empty array
     const [products, setProducts] = useState([]);
     // create list with Text components from products array.
-    // map iterates array and creates new array
+    // map iterates array and creates new array, each element with an unique key
     const list = products.map((product, index) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
 
     return (

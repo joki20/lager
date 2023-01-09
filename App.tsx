@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'; // bottom of app, for development process
-import { Image, StyleSheet, Text, View } from 'react-native'; // StyleSheet är stilmall
+import { Image, StyleSheet, Platform, Text, View } from 'react-native'; // StyleSheet är stilmall
 import { SafeAreaView } from 'react-native-safe-area-context'; // show elements within visible area, below top notch of view
 import warehouse from './assets/warehouse.jpg'; // works because of assets/index.d.ts
 
@@ -29,6 +29,7 @@ export default function App() {  // App is exported from App.tsx
 const styles = StyleSheet.create({
     container: {
         flex: 1, // moves image to top
+        paddingTop: Platform.OS === 'android' ? 100 : 0, // since SafeAreaView doesn't work with Android
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
