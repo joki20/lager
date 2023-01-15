@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react'; // in order to use state hooks, i.e
 
 import { Text, View } from 'react-native'; // core component
 import config from "../config/config.json"; // contains my api key and base url to lager
+// styling from index.js - kmom02
+import { Base, Typography } from '../styles';
 
-// second argumenet=empty array, meaning function only executes once.
+// second argumenet is an empty array, meaning function only executes once.
 // otherwise the function (fetch) inside useEffect would execute each time component is updated
-function StockList() {
+function StockList() { // reusablle component inside Stock.tsx
     // fetch data
     useEffect(() => {
         fetch(`${config.base_url}/products?api_key=${config.api_key}`)
@@ -17,7 +19,8 @@ function StockList() {
 
 
 
-    // products saves data, setProducts changes products. Start value is empty array
+    // state: products saves data, setProducts changes products. Start value is empty array
+    // React Hooks allows changing state without needing to create a class for component, keeping the application function based
     const [products, setProducts] = useState([]);
     // create list with Text components from products array.
     // map iterates array and creates new array, each element with an unique key
@@ -34,7 +37,7 @@ function StockList() {
 export default function Stock() {
     return (
         <View>
-            <Text style={{color: '#333', fontSize: 24}}>Lagerförteckning</Text>
+            <Text style={Typography.header3}>Lagerförteckning</Text>
             <StockList />
         </View>
     );
