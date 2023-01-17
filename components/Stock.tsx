@@ -5,40 +5,68 @@ import { Text, View } from 'react-native'; // core component
 import config from "../config/config.json"; // contains my api key and base url to lager
 // styling from index.js - kmom02
 import { Base, Typography } from '../styles';
-
-// second argumenet is an empty array, meaning function only executes once.
-// otherwise the function (fetch) inside useEffect would execute each time component is updated
-function StockList() { // reusablle component inside Stock.tsx
-    // fetch data
-    useEffect(() => {
-        fetch(`${config.base_url}/products?api_key=${config.api_key}`)
-        .then(response => response.json())
-        .then(result => setProducts(result.data));
-    }, []);
+// models kmom02
+import stock from './../models/stock';
 
 
+// second argumenet is empty array, meaning function only executes once. Otherwise function updated each time component is updated
 
 
-    // state: products saves data, setProducts changes products. Start value is empty array
-    // React Hooks allows changing state without needing to create a class for component, keeping the application function based
-    const [products, setProducts] = useState([]);
-    // create list with Text components from products array.
-    // map iterates array and creates new array, each element with an unique key
-    const list = products.map((product, index) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
+//     // create and return list of Text elements
+//     const list = products.map((product:{}, index:number) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
+
+//     return (
+//         <View>
+//             {list}
+//         </View>
+//     );
+// }
+
+export default function Stock(products, setProducts) {
+    // useEffect(() => {
+    //     async function fetchData() {
+    //       // You can await here
+    //       const response = setProducts(await stock.getProducts())
+    //     }
+    //     // fetch data
+    //     fetchData()
+
+
+    //   }, []);
+
+
+    list = products.map((product:{}, index:number) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
+      
 
     return (
         <View>
+            <Text style={Typography.header3}>Lagerförteckning</Text>
             {list}
         </View>
     );
 }
 
- // styles needs to be inside brackets (outer brackets because JS inside JSX)
-export default function Stock() {
-    return (
-        <View>
-            <Text style={Typography.header3}>Lagerförteckning</Text>
-            <StockList />
-        </View>
-    );
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // AVMARKERA OM USEEFFECT OVAN BLIR FEL
+    // useEffect(() => {
+    //     fetch(`${config.base_url}/products?api_key=${config.api_key}`)
+    //     .then(response => response.json())
+    //     .then(result => setProducts(result.data));
+    // }, []);
+

@@ -12,6 +12,7 @@ export const header2 = {
 export const header3 = {
     fontSize: 28,
     marginBottom: 28,
+    color: '¤333'
 };
 
 export const normal = {

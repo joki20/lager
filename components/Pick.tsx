@@ -8,10 +8,19 @@ import PickList from './PickList'; // specific order and products in it
 
 const Stack = createNativeStackNavigator();
 
-export default function Pick() {
+// Stack automatically send props 'navigation'
+export default function Pick(allOrders, setAllOrders, products, setProducts) {
     return (
         <Stack.Navigator initialRouteName="List">
-            <Stack.Screen name="List" component={OrderList} />
+
+            <Stack.Screen name="List">
+                {() => <OrderList allOrders={allOrders} setAllOrders={setAllOrders} />}
+            </Stack.Screen>
+
+            <Stack.Screen name="Details">
+                {() => <PickList  />}
+            </Stack.Screen>
+
             <Stack.Screen name="Details" component={PickList} />
         </Stack.Navigator>
     );

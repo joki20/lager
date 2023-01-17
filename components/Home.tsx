@@ -11,16 +11,16 @@ import Stock from './Stock'; // do not write /Stock.tsx
 // if below comments are placed in jsx code, following error will occur: Error: Text strings must be rendered within a <Text> component.
 
 // brackets needed for JS inside JSX
-// styles.container (object with css code) prevents image to position in notch top of phone
 // importing image, width and height must be defined to show image
 
-export default function Home() {
+export default function Home(products, setProducts) {
+    alert(products)
     return (
         <ScrollView>
             <View style={Base.Home.container}>
                 <Text style={Typography.header1}>Lager-Appen</Text>
                 <Image source={warehouse} style={Base.warehouse} />
-                <Stock />
+                <Stock products={products} setProducts={setProducts} />
             </View>
         </ScrollView>
     );
