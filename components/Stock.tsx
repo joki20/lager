@@ -35,7 +35,7 @@ export default function Stock(products, setProducts) {
     //   }, []);
 
 
-    list = products.map((product:{}, index:number) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
+    const list = products.map((product:{}, index:number) => <Text key={index}>{ product['name'] } - { product['stock'] }</Text>);
       
 
     return (

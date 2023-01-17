@@ -14,7 +14,7 @@ import { Base, Typography } from '../styles';
 export default function PickList({ route, navigation }) {
     const { order } = route.params;
 
-    // get gorder
+    // get order
     async function pick() {
         await orderModel.pickOrder(order);
         navigation.navigate("List");
