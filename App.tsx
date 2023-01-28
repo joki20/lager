@@ -1,23 +1,25 @@
 // expo start - runs app
 import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar'; // bottom of app, for development process
-import { Image, StyleSheet, Text, View } from 'react-native'; // StyleSheet är stilmall
+import { View, ScrollView } from 'react-native'; // StyleSheet är stilmall
 import { SafeAreaView } from 'react-native-safe-area-context'; // show elements within visible area, below top notch of view
-// STYLING kmom02
-import { Base, Typography } from './styles'; // styling from index.js - kmom02
+// STYLING
+import { Base, Menu, Forms, Typography } from './styles'; // styling from index.js - kmom02
 // PAGES kmom02
 import Home from "./components/Home"; // not ./components/Home.tsx
 import Pick from "./components/Pick";
+import Deliveries from "./components/Deliveries";
 // NAVIGATION kmom02
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // MENU ICONS kmom02, see tab.Navigator where props is used and arrow to object with method tabBarIcon
 import { Ionicons } from '@expo/vector-icons'; // use props to send data (installed from beginning)
 // INTERFACES kmom02
-import { Order } from './interfaces/orders';
 import { Product } from './interfaces/products';
+import { Order } from './interfaces/orders';
 // MODELS
 import stock from './models/stock';
+import orders from './models/orders';
 
 const Tab = createBottomTabNavigator();
 const routeIcons = { // menu icons kmom02 (more icons here: https://icons.expo.fyi/ but filter on ionicons)
@@ -25,34 +27,28 @@ const routeIcons = { // menu icons kmom02 (more icons here: https://icons.expo.f
     "Plock": "list",
   };
 
-// products och setProducts måste skickas ner till Pick, pga ska uppdatera produkterna
-// App => Home => Stock
-// App => Stock
+// products och setProducts skickas ner till Pick, pga uppdatera produkterna där
+// App => Home (Stock)
 // App => Pick => OrderList
 // App => Pick => PickList
 
+// <Order>([]) meaning each element in array follows <Order> interface
 export default function App() {
-    const [products, setProducts] = useState(["aaa"]); // => Home => Stock
-    const [allOrders, setAllOrders] = useState<Order>([]); // => Pick => OrderList
+    const [products, setProducts] = useState<Product[]>([]); // => Home => Stock
+
 
     useEffect(() => {
         async function fetchData() {
-        // You can await here
-        const response = setProducts(await stock.getProducts());
+            setProducts(await stock.getProducts());
         }
-
         // fetch data
-        fetchData()
+        fetchData();
 
-
-      }, []);
-
-    alert(products);
-
+      }, []); // if empty only run once
 
     return (
-        <SafeAreaView style={Base.App.container}>
-            <View style={Base.App.container}>      
+        <SafeAreaView style={Base.App.style}>
+            <View style={Base.App.style}>    
                 <NavigationContainer>
                     <Tab.Navigator screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color, size }) => {
@@ -60,17 +56,19 @@ export default function App() {
 
                             return <Ionicons name={iconName} size={size} color={color} />;
                         },
-                        tabBarActiveTintColor: Base.activeMenu['color'],
-                        tabBarInactiveTintColor: Base.inactiveMenu['color'],
+                        tabBarActiveTintColor: Menu.activeMenu['color'],
+                        tabBarInactiveTintColor: Menu.inactiveMenu['color'],
                     })}
                     >
-                        <Tab.Screen name="Lager">
-                            {() => <Home products={products} setProducts={setProducts} />}
-                        </Tab.Screen>
-                        
-                        <Tab.Screen name="Plock">
-                            {() => <Pick allOrders={allOrders} setAllOrders={setAllOrders} products={products} setProducts={setProducts} />}
-                        </Tab.Screen>
+                            <Tab.Screen name="Lager">
+                                {() => <Home products={products} setProducts={setProducts} />}
+                            </Tab.Screen>
+                            
+                            <Tab.Screen name="Plock">
+                                {() => <Pick products={products} setProducts={setProducts} />}
+                            </Tab.Screen>
+
+                            <Tab.Screen name="Inleveranser" component={Deliveries} />
 
                     </Tab.Navigator>
                 </NavigationContainer>
