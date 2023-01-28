@@ -41,7 +41,7 @@ function ProductDropDown(props) { // props.delivery, props.setDelivery and props
         <Picker
             selectedValue={props.delivery?.product_id}
             onValueChange={(itemValue) => {
-                props.setDelivery({ ...props.delivery, product_id: itemValue });
+                props.setDelivery({ ...props.delivery, product_id: itemValue }); // add product_id to empty delivery object
                 props.setCurrentProduct(productsHash[itemValue]);
             }}>
             {itemsList}
@@ -52,7 +52,6 @@ function ProductDropDown(props) { // props.delivery, props.setDelivery and props
 
 
     function addDelivery() {
-        console.log(delivery)
         // skicka delivery till delivery model
         // öka antalet produkter i lagret för vald produkt
     }
@@ -61,14 +60,14 @@ function ProductDropDown(props) { // props.delivery, props.setDelivery and props
     // ProductDropDown contains three props
     return (
         <ScrollView>
-            <View style={Base.base.style}>
+            <View style={Base.base.stylePageWithDropdown}>
                 <Text style={ Typography.header2 }>Gör ny inleverans</Text>
                 
 
 
                 <Text style={ Forms.inputLabel.style }>Produkt</Text>
                 <ProductDropDown
-                    // style={ Forms.dropdown.style }
+                    style={ Forms.dropdown.style }
                     delivery={delivery}
                     setDelivery={setDelivery}
                     setCurrentProduct={setCurrentProduct}
@@ -78,10 +77,11 @@ function ProductDropDown(props) { // props.delivery, props.setDelivery and props
                 <TextInput
                     style={ Forms.input.style }
                     onChangeText={(content: string) => {
-                        console.log("inuti onChange");
-                        console.log(delivery);
-                        setDelivery({ ...delivery, amount: parseInt(content)}); // convert to int for interface
-                        console.log(delivery);
+                        // problem: parseInt can't handle empty string as input, creates NaN
+                        let numericValue;
+                        content ? numericValue = parseInt(content) : numericValue = "";
+
+                        setDelivery({ ...delivery, amount: numericValue}); // convert to int for interface
                     }}
                     value={delivery?.amount?.toString()}
                     keyboardType="numeric"
@@ -99,7 +99,8 @@ function ProductDropDown(props) { // props.delivery, props.setDelivery and props
 
                 <Pressable style={[ Forms.btn.style, Forms.greenBtn.style ]}
                     onPress={() => {
-                        addDelivery();
+                        console.log(currentProduct, delivery)
+                        // addDelivery(currentProduct, delivery);
                     }}
 
                 >

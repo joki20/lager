@@ -17,16 +17,14 @@ export const base = EStyleSheet.create({
         alignItems: 'center', // horizontal
         padding: v.$pagesPadding
     },
+    stylePageWithDropdown: { // without alignItems center
+        flex: 1, // moves image to top
+        backgroundColor: v.$backgroundColor,
+        justifyContent: 'flex-start', // vertical
+        padding: v.$pagesPadding
+    },
     ScrollView: {
         paddingHorizontal: 35,
     }
 });
 
-// export const  = EStyleSheet.create({
-//     style: {
-//         flex: 1,
-//         padding: 12,
-//         lineHeight: v.$lineHeight,
-//         color: '#333',
-//     }
-// });
